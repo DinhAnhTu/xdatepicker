@@ -1,4 +1,3 @@
-// angular component
 'use strict';
 
 angular
@@ -25,13 +24,12 @@ angular
   })
 
   .directive('xDatePicker', [
-    '$timeout',
+    '$timeout', 
     'xdatetimepicker',
     function ($timeout,
               xdatetimepicker) {
 
       var default_options = xdatetimepicker.getOptions();
-
       return {
         require : '?ngModel',
         restrict: 'AE',
