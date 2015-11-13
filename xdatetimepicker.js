@@ -5,7 +5,6 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
   default_options = {
     format: 'd/m/Y H:i',
     formatDate: 'd/m/Y H:i',
-    minDate: '0',
     mask: true
   };
   this.setOptions = function(options) {
@@ -17,6 +16,27 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
         return default_options;
       }
     };
+  };
+}).directive('xdatepicker', function($timeout, xdatetimepicker) {
+  return {
+    require: '?ngModel',
+    restrict: 'A',
+    scope: {
+      xdatetimepickerOptions: '@'
+    },
+    link: function(scope, el, attrs, ngModelCtrl) {
+      var default_options, options, passed_in_options;
+      default_options = xdatetimepicker.getOptions();
+      passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
+      options = jQuery.extend({}, default_options, passed_in_options,{format:'d/m/Y',timepicker:false});
+      el.on('change', function(e) {
+        if (ngModelCtrl) {
+          $timeout(function() {
+            ngModelCtrl.$setViewValue(e.target.value);
+          });
+        }
+      }).datetimepicker(options);
+    }
   };
 }).directive('xdatetimepicker', function($timeout, xdatetimepicker) {
   return {
