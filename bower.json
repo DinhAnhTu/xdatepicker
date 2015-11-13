@@ -5,7 +5,7 @@
     "DAT <anhtu1812@gmail.com>"
   ],
   "description"  : "A wrapper directive around the datetimepicker component.",
-  "main"         : "xdatetimepicker.min.js",
+  "main"         : "xdatetimepicker.js",
   "keywords"     : [
     "angular",
     "bootstrap",
