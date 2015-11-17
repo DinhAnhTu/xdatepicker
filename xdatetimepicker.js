@@ -37,7 +37,7 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       }).datetimepicker(options);
     }
   };
-}).directive('xdatetimepicker', function($timeout, xdatetimepicker) {
+}).directive('xdatetimepicker', function($timeout, xdatetimepicker, $filter) {
   return {
     require: '?ngModel',
     restrict: 'A',
@@ -53,11 +53,24 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
-      
             ngModelCtrl.$setViewValue(e.target.value);
           });
         }
       }).datetimepicker(options);
+
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime){
+                  date = $filter('date')(new Date(date*1000),'dd/MM/yyyy HH:mm');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+          setPickerValue();
     }
   };
 }).directive('xdatepickerStart', function($timeout, xdatetimepicker) {
