@@ -1,29 +1,53 @@
-# xdatepicker
+# xdatetimepicker
 
 ## This package is in early development state
-xdatepicker is a thin wrapper around datetimepicker jQuery plugin select date and time from https://github.com/xdan/datetimepicker
+xdatepicker is a thin wrapper around datetimepicker jQuery plugin select date and time picker from https://github.com/xdan/datetimepicker
 use:
 
-Directive: 
-	- xdatepicker
-	- xdatepicker-start
-	- xdatepicker-end
-	- xdatetimepicker
-	- xdatetimepicker-start
-	- xdatetimepicker-end
-	- xdatetimepicker-options
+### Directive:
+- xdatepicker
+- xdatepicker-start
+- xdatepicker-end
+- xdatetimepicker
+- xdatetimepicker-start
+- xdatetimepicker-end
+- xdatetimepicker-options
 
-> <input type="text" xdatepicker>
-> <input type="text" xdatepicker xdatetimepicker-options="{format:'d/m/Y'}">
+#### As attribute:
 
-> <input type="text" xdatepicker-start="1">
-> <input type="text" xdatepicker-end="1">
+```html 
+<input type="text" ng-model="strTime" xdatepicker /> 
+
+* Time range
+<input type="text" ng-model="strTimeStart" xdatepicker-start="range1" />
+<input type="text" ng-model="strTimeEnd" xdatepicker-end="range1" />
+
+* Options:
+<input type="text" ng-model="strTime" xdatepicker xdatetimepicker-options="{format:'d/m/Y'}" />
+```
+---
+
+#### As element:
+
+```html 
+<xdatepicker ng-model="strTime"></xdatepicker> 
+
+* Time range
+<xdatepicker-start="range1" ng-model="strTimeStart"></xdatepicker>
+<xdatepicker-end="range1" ng-model="strTimeEnd"></xdatepicker>
+
+* Options:
+<xdatepicker xdatetimepicker-options="{format:'d/m/Y'}" ng-model="strTime"></xdatepicker>
+```
+---
 
 ### Installation
 
 ```sh
 $ bower install xdatetimepicker
 ```
+
+Thanks [xdan](https://github.com/xdan/datetimepicker)!
 
 License
 
