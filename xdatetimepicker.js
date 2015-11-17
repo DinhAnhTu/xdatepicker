@@ -13,7 +13,7 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       }
     };
   };
-}).directive('xdatepicker', function($timeout, xdatetimepicker) {
+}).directive('xdatepicker', function($timeout, xdatetimepicker, $filter) {
   return {
     require: '?ngModel',
     restrict: 'A',
@@ -35,6 +35,20 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
           });
         }
       }).datetimepicker(options);
+
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'dd/MM/yyyy');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+      setPickerValue();
     }
   };
 }).directive('xdatetimepicker', function($timeout, xdatetimepicker, $filter) {
@@ -61,7 +75,7 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       function setPickerValue() {
               $timeout(function() {
               var date = ngModelCtrl.$modelValue;
-              if(options.fromunixtime){
+              if(options.fromunixtime && angular.isNumber(date)){
                   date = $filter('date')(new Date(date*1000),'dd/MM/yyyy HH:mm');
                   el.val(date);  
               } else {
@@ -70,10 +84,10 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
             });
         }
 
-          setPickerValue();
+      setPickerValue();
     }
   };
-}).directive('xdatepickerStart', function($timeout, xdatetimepicker) {
+}).directive('xdatepickerStart', function($timeout, xdatetimepicker, $filter) {
   return {
     require: '?ngModel',
     restrict: 'A',
@@ -93,14 +107,29 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       options = jQuery.extend({}, {
         onShow: onShow
       }, default_options, {format: 'd/m/Y', timepicker:false}, passed_in_options);
+      
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'dd/MM/yyyy');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
-      
+            setPickerValue();
             ngModelCtrl.$setViewValue(e.target.value);
           });
         }
       }).datetimepicker(options);
+
+      setPickerValue();
     }
   };
 }).directive('xdatepickerEnd', function($timeout, xdatetimepicker, $filter) {
@@ -131,9 +160,23 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
           });
         }
       }).datetimepicker(options);
+
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'dd/MM/yyyy');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+      setPickerValue();
     }
   };
-}).directive('xdatetimepickerStart', function($timeout, xdatetimepicker) {
+}).directive('xdatetimepickerStart', function($timeout, xdatetimepicker, $filter) {
   return {
     require: '?ngModel',
     restrict: 'A',
@@ -161,6 +204,20 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
           });
         }
       }).datetimepicker(options);
+
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'dd/MM/yyyy HH:mm');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+      setPickerValue();
     }
   };
 }).directive('xdatetimepickerEnd', function($timeout, xdatetimepicker, $filter) {
@@ -191,6 +248,20 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
           });
         }
       }).datetimepicker(options);
+
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'dd/MM/yyyy HH:mm');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+      setPickerValue();
     }
   };
 });
