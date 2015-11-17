@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Xdatetimepicker by DinhAnhTu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Xdatetimepicker</h1>
+      <h2 class="project-tagline">Date time picker</h2>
+      <a href="https://github.com/DinhAnhTu/xdatetimepicker" class="btn">View on GitHub</a>
+      <a href="https://github.com/DinhAnhTu/xdatetimepicker/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/DinhAnhTu/xdatetimepicker/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="xdatetimepicker" class="anchor" href="#xdatetimepicker" aria-hidden="true"><span class="octicon octicon-link"></span></a>xdatetimepicker</h1>
+
+<h2>
+<a id="this-package-is-in-early-development-state" class="anchor" href="#this-package-is-in-early-development-state" aria-hidden="true"><span class="octicon octicon-link"></span></a>This package is in early development state</h2>
+
+<p>xdatetimepicker is a thin wrapper around datetimepicker jQuery plugin select date and time picker from <a href="https://github.com/xdan/datetimepicker">https://github.com/xdan/datetimepicker</a>
+use:</p>
+
+<h3>
+<a id="directive" class="anchor" href="#directive" aria-hidden="true"><span class="octicon octicon-link"></span></a>Directive:</h3>
+
+<ul>
+<li>xdatepicker</li>
+<li>xdatepicker-start</li>
+<li>xdatepicker-end</li>
+<li>xdatetimepicker</li>
+<li>xdatetimepicker-start</li>
+<li>xdatetimepicker-end</li>
+<li>xdatetimepicker-options</li>
+</ul>
+
+<h4>
+<a id="as-attribute" class="anchor" href="#as-attribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>As attribute:</h4>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTime<span class="pl-pds">"</span></span> <span class="pl-e">xdatepicker</span> /&gt; 
+
+* Time range
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTimeStart<span class="pl-pds">"</span></span> <span class="pl-e">xdatepicker-start</span>=<span class="pl-s"><span class="pl-pds">"</span>range1<span class="pl-pds">"</span></span> /&gt;
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTimeEnd<span class="pl-pds">"</span></span> <span class="pl-e">xdatepicker-end</span>=<span class="pl-s"><span class="pl-pds">"</span>range1<span class="pl-pds">"</span></span> /&gt;
+
+* Options:
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTime<span class="pl-pds">"</span></span> <span class="pl-e">xdatepicker</span> <span class="pl-e">xdatetimepicker-options</span>=<span class="pl-s"><span class="pl-pds">"</span>{format:'d/m/Y'}<span class="pl-pds">"</span></span> /&gt;</pre></div>
+
+<h4>
+<a id="as-element" class="anchor" href="#as-element" aria-hidden="true"><span class="octicon octicon-link"></span></a>As element:</h4>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">xdatepicker</span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTime<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">xdatepicker</span>&gt; 
+
+* Time range
+&lt;<span class="pl-ent">xdatepicker</span><span class="pl-e">-start</span>=<span class="pl-s"><span class="pl-pds">"</span>range1<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTimeStart<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">xdatepicker</span>&gt;
+&lt;<span class="pl-ent">xdatepicker</span><span class="pl-e">-end</span>=<span class="pl-s"><span class="pl-pds">"</span>range1<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTimeEnd<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">xdatepicker</span>&gt;
+
+* Options:
+&lt;<span class="pl-ent">xdatepicker</span> <span class="pl-e">xdatetimepicker-options</span>=<span class="pl-s"><span class="pl-pds">"</span>{format:'d/m/Y'}<span class="pl-pds">"</span></span> <span class="pl-e">ng-model</span>=<span class="pl-s"><span class="pl-pds">"</span>strTime<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">xdatepicker</span>&gt;</pre></div>
+
+<hr>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<div class="highlight highlight-source-shell"><pre>$ bower install xdatetimepicker</pre></div>
+
+<p>Thanks <a href="https://github.com/xdan/datetimepicker">xdan</a>!</p>
+
+<p>License</p>
+
+<hr>
+
+<p>MIT</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/DinhAnhTu/xdatetimepicker">Xdatetimepicker</a> is maintained by <a href="https://github.com/DinhAnhTu">DinhAnhTu</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
