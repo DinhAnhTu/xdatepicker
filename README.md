@@ -1,7 +1,7 @@
 # xdatetimepicker
 
 ## This package is in early development state
-xdatepicker is a thin wrapper around datetimepicker jQuery plugin select date and time picker from https://github.com/xdan/datetimepicker
+xdatetimepicker is a thin wrapper around datetimepicker jQuery plugin select date and time picker from https://github.com/xdan/datetimepicker
 use:
 
 ### Directive:
