@@ -99,10 +99,12 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       default_options = xdatetimepicker.getOptions();
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       onShow = function(ct) {
-        this.setOptions({
-          formatDate: 'd/m/Y',
-          maxDate: (jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== jQuery("[xdatepicker-start=" + attrs.xdatepickerStart + "]").val()) && (jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== '') ? jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() : false
-        });
+        if(jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== ''){
+          this.setOptions({
+            formatDate: 'd/m/Y',
+            maxDate: (jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== jQuery("[xdatepicker-start=" + attrs.xdatepickerStart + "]").val()) && (jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== '') ? jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() : false
+          });
+        }  
       };
       options = jQuery.extend({}, {
         onShow: onShow
@@ -188,10 +190,12 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       default_options = xdatetimepicker.getOptions();
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       onShow = function(ct) {
-        this.setOptions({
-          formatDate: 'd/m/Y',
-          maxDate: (jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerStart + "]").val()) && (jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== '__/__/____ __:__') ? jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() : false
-        });
+        if(jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== ''){
+          this.setOptions({
+            formatDate: 'd/m/Y',
+            maxDate: (jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerStart + "]").val()) && (jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== '__/__/____ __:__') ? jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() : false
+          });
+        }
       };
       options = jQuery.extend({}, {
         onShow: onShow
