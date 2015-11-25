@@ -28,6 +28,12 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       options = jQuery.extend({}, default_options, {format:'d/m/Y', timepicker:false}, passed_in_options);
       
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+      
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
