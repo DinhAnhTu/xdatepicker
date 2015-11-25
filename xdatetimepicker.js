@@ -2,7 +2,9 @@
 
 angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
   var default_options;
-  default_options = {};
+  default_options = {
+    editable: false
+  };
   this.setOptions = function(options) {
     default_options = options;
   };
@@ -64,6 +66,12 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       options = jQuery.extend({}, default_options, {format: 'd/m/Y H:i'}, passed_in_options);
 
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
@@ -95,14 +103,18 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       xdatetimepickerOptions: '@'
     },
     link: function(scope, el, attrs, ngModelCtrl) {
-      var default_options, onShow, options, passed_in_options;
+      var default_options, onShow, options, passed_in_options, startDate, endDate;
       default_options = xdatetimepicker.getOptions();
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       onShow = function(ct) {
-        if(jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== ''){
+
+        startDate = jQuery("[xdatepicker-start=" + attrs.xdatepickerStart + "]").val();
+        endDate = jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val();
+
+        if(endDate !== ''){
           this.setOptions({
             formatDate: 'd/m/Y',
-            maxDate: (jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== jQuery("[xdatepicker-start=" + attrs.xdatepickerStart + "]").val()) && (jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() !== '') ? jQuery("[xdatepicker-end=" + attrs.xdatepickerStart + "]").val() : false
+            maxDate: (endDate !== startDate) && (endDate !== '') ? endDate : false
           });
         }  
       };
@@ -121,6 +133,12 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
               }
             });
         }
+
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
 
       el.on('change', function(e) {
         if (ngModelCtrl) {
@@ -142,18 +160,29 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       xdatetimepickerOptions: '@'
     },
     link: function(scope, el, attrs, ngModelCtrl) {
-      var default_options, onShow, options, passed_in_options;
+      var default_options, onShow, options, passed_in_options, startDate, endDate;
       default_options = xdatetimepicker.getOptions();
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       onShow = function(ct) {
+
+        startDate = jQuery("[xdatepicker-start=" + attrs.xdatepickerEnd + "]").val();
+        endDate = jQuery("[xdatepicker-end=" + attrs.xdatepickerEnd + "]").val();
+
         this.setOptions({
           formatDate: 'd/m/Y',
-          minDate: jQuery("[xdatepicker-start=" + attrs.xdatepickerEnd + "]").val() !== jQuery("[xdatepicker-end=" + attrs.xdatepickerEnd + "]").val() ? jQuery("[xdatepicker-start=" + attrs.xdatepickerEnd + "]").val() : false
+          minDate: (startDate !== endDate) ? startDate : false
         });
       };
       options = jQuery.extend({}, {
         onShow: onShow
       }, default_options, {format: 'd/m/Y', timepicker:false}, passed_in_options);
+
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
@@ -178,6 +207,150 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       setPickerValue();
     }
   };
+}).directive('xtimepickerStart', function($timeout, xdatetimepicker, $filter) {
+  return {
+    require: '?ngModel',
+    restrict: 'A',
+    scope: {
+      xdatetimepickerOptions: '@'
+    },
+    link: function(scope, el, attrs, ngModelCtrl) {
+      var default_options, onShow, options, passed_in_options, startTime, endTime, offset = 0, maxTimeWithOffset;
+
+      default_options = xdatetimepicker.getOptions();
+      passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
+      
+      options = jQuery.extend({}, default_options, {format: 'H:i', datepicker:false}, passed_in_options);
+      
+      onShow = function(ct) {
+
+        startTime = jQuery("[xtimepicker-start=" + attrs.xtimepickerStart + "]").val();
+        endTime = jQuery("[xtimepicker-end=" + attrs.xtimepickerStart + "]").val();
+
+        if(passed_in_options.offset != undefined){
+          if( el.val() != undefined && (parseInt(endTime.split(":")[0]) - passed_in_options.offset <= parseInt(el.val().split(":")[0]))){
+            offset = 0;
+          } else {
+            offset = parseInt(passed_in_options.offset);
+          }
+        }
+
+        maxTimeWithOffset = ((startTime !== endTime) && (endTime !== '') ? parseInt(endTime.split(":")[0]) - offset + ':' +  endTime.split(":")[1] : false);
+
+
+        if(endTime !== ''){
+          this.setOptions({
+            formatTime:'H:i',
+            maxTime: maxTimeWithOffset
+          });
+        }  
+      };
+
+      options = jQuery.extend({}, {
+        onShow: onShow
+      }, options);
+      
+      
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'HH:mm');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+
+      el.on('change', function(e) {
+        if (ngModelCtrl) {
+          $timeout(function() {
+            setPickerValue();
+            ngModelCtrl.$setViewValue(e.target.value);
+          });
+        }
+      }).datetimepicker(options);
+
+      setPickerValue();
+    }
+  };
+}).directive('xtimepickerEnd', function($timeout, xdatetimepicker, $filter) {
+  return {
+    require: '?ngModel',
+    restrict: 'A',
+    scope: {
+      xdatetimepickerOptions: '@'
+    },
+    link: function(scope, el, attrs, ngModelCtrl) {
+      var default_options, onShow, options, passed_in_options, startTime, endTime, offset = 0, minTimeWithOffset;
+
+      default_options = xdatetimepicker.getOptions();
+      passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
+
+      options = jQuery.extend({}, default_options, {format: 'H:i', datepicker:false}, passed_in_options);
+      
+      onShow = function(ct) {
+        startTime = jQuery("[xtimepicker-start=" + attrs.xtimepickerEnd + "]").val();
+        endTime = jQuery("[xtimepicker-end=" + attrs.xtimepickerEnd + "]").val();
+
+        if(passed_in_options.offset != undefined){
+          if( el.val() != undefined && (parseInt(startTime.split(":")[0]) - passed_in_options.offset <= parseInt(el.val().split(":")[0]))){
+            offset = 0;
+          } else {
+            offset = parseInt(passed_in_options.offset);
+          }
+        }
+
+        minTimeWithOffset = ((startTime !== endTime) && (startTime !== '') ? parseInt(startTime.split(":")[0]) + offset + ':' +  startTime.split(":")[1] : false);
+
+        if(startTime !== ''){
+          this.setOptions({
+            formatTime:'H:i',
+            minTime: minTimeWithOffset
+          });
+        }  
+      };
+      options = jQuery.extend({}, {
+        onShow: onShow
+      }, options);
+      
+      function setPickerValue() {
+              $timeout(function() {
+              var date = ngModelCtrl.$modelValue;
+              if(options.fromunixtime && angular.isNumber(date)){
+                  date = $filter('date')(new Date(date*1000),'HH:mm');
+                  el.val(date);  
+              } else {
+                ngModelCtrl.$setViewValue(date);  
+              }
+            });
+        }
+
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+
+      el.on('change', function(e) {
+        if (ngModelCtrl) {
+          $timeout(function() {
+            setPickerValue();
+            ngModelCtrl.$setViewValue(e.target.value);
+          });
+        }
+      }).datetimepicker(options);
+
+      setPickerValue();
+    }
+  };
 }).directive('xdatetimepickerStart', function($timeout, xdatetimepicker, $filter) {
   return {
     require: '?ngModel',
@@ -186,20 +359,30 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       xdatetimepickerOptions: '@'
     },
     link: function(scope, el, attrs, ngModelCtrl) {
-      var default_options, onShow, options, passed_in_options;
+      var default_options, onShow, options, passed_in_options, startTime, endTime;
       default_options = xdatetimepicker.getOptions();
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       onShow = function(ct) {
-        if(jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== ''){
+        startTime = jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerStart + "]").val();
+        endTime = jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val();
+
+        if(endTime !== ''){
           this.setOptions({
             formatDate: 'd/m/Y',
-            maxDate: (jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerStart + "]").val()) && (jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() !== '__/__/____ __:__') ? jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerStart + "]").val() : false
+            maxDate: (endTime !== startTime) && (endTime !== '') ? endTime : false
           });
         }
       };
       options = jQuery.extend({}, {
         onShow: onShow
       }, default_options, {format: 'd/m/Y H:i'}, passed_in_options);
+
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
@@ -232,18 +415,29 @@ angular.module('xdatetimepicker', []).provider('xdatetimepicker', function() {
       xdatetimepickerOptions: '@'
     },
     link: function(scope, el, attrs, ngModelCtrl) {
-      var default_options, onShow, options, passed_in_options;
+      var default_options, onShow, options, passed_in_options, startTime, endTime;
       default_options = xdatetimepicker.getOptions();
       passed_in_options = scope.$eval(attrs.xdatetimepickerOptions);
       onShow = function(ct) {
+
+        startTime = jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerEnd + "]").val();
+        endTime = jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerEnd + "]").val();
+
         this.setOptions({
           formatDate: 'd/m/Y',
-          minDate: jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerEnd + "]").val() !== jQuery("[xdatetimepicker-end=" + attrs.xdatetimepickerEnd + "]").val() ? jQuery("[xdatetimepicker-start=" + attrs.xdatetimepickerEnd + "]").val() : false
+          minDate: startTime !== endTime ? startTime : false
         });
       };
       options = jQuery.extend({}, {
         onShow: onShow
       }, default_options, {format: 'd/m/Y H:i'}, passed_in_options);
+
+      if(options.editable == false){
+        el.keydown(function(e){
+          e.preventDefault();
+          });
+      }
+
       el.on('change', function(e) {
         if (ngModelCtrl) {
           $timeout(function() {
